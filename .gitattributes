@@ -1,0 +1,25 @@
+# Set default behavior to automatically normalize line endings to LF
+* text=auto eol=lf
+
+# Windows scripts should keep their line endings
+*.bat binary
+
+# JavaScript/CSS/HTML should always use LF
+*.js   text eol=lf
+*.jsx  text eol=lf
+*.css  text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+
+# Python files should use LF
+*.py   text eol=lf
+
+# Shell scripts should use LF
+*.sh   text eol=lf
+
+# This tells GitHub to mark the repo as a JavaScript/Python project
+*.js   linguist-language=JavaScript
+*.jsx  linguist-language=JavaScript
+*.py   linguist-language=Python
+*.bat  linguist-language=Batchfile
