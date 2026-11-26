@@ -1,0 +1,57 @@
+{
+  "long_function": {
+    "title": "{function_name} is too long ({line_count} lines)",
+    "description": "{function_name} handles {responsibility_count} responsibilities — this edge case was missed.",
+    "future_scenario": "As {function_name} grows, changes to one responsibility may unintentionally affect another, potentially introducing unexpected bugs.",
+    "impact": "Increased debugging time, difficult maintenance, and a higher risk of regression errors.",
+    "recommendation": "Split the function into smaller functions, each handling one responsibility.",
+    "suggested_fix": {
+      "python": "# one responsibility per helper\ndef {function_name}(self, ...):\n    self._validate_input(...)\n    charge = self._charge(...)\n    self._reserve_and_screen(...)\n    return charge",
+      "javascript": "// one responsibility per helper\nasync {function_name}(promo, giftCard) {{\n  await this.validateInput();\n  const charge = await this.charge();\n  await this.reserveAndScreen();\n  return charge;\n}}"
+    }
+  },
+  "duplicate_logic": {
+    "title": "Duplicate validation logic causes inconsistent error messages",
+    "description": "The same validation was copy-pasted in {count} places and diverged over time.",
+    "future_scenario": "If validation rules change in one location but not the others, different parts of the application may accept inconsistent or invalid inputs.",
+    "impact": "Inconsistent application behaviour, validation failures, and potential data integrity issues.",
+    "recommendation": "Extract duplicated validation into a reusable function or shared module.",
+    "suggested_fix": {
+      "python": "# this line appears {count} times — keep one shared helper and call it twice\nself._shared_step(promo)\n\n# then delete the duplicate copy",
+      "javascript": "// this line appears {count} times — keep one shared helper and call it twice\nthis.sharedStep(promo);\n\n// then delete the duplicate copy"
+    }
+  },
+  "complex_condition": {
+    "title": "Overly complex conditional in {function_name}",
+    "description": "The conditional at line {line} has {condition_count} branches — consider extracting into a guard clause or helper.",
+    "future_scenario": "As additional conditions are introduced, an overlooked logical combination may cause the application to follow an unintended execution path.",
+    "impact": "Incorrect decisions, unexpected application behaviour, and difficult debugging.",
+    "recommendation": "Break complex conditions into smaller, clearly named boolean expressions or helper functions.",
+    "suggested_fix": {
+      "python": "# name each part of the condition, then combine the named parts\nis_ready = condition_a and condition_b\nif not is_ready:\n    return early_result",
+      "javascript": "// name each part of the condition, then combine the named parts\nconst isReady = conditionA && conditionB;\nif (!isReady) return earlyResult;"
+    }
+  },
+  "bare_except": {
+    "title": "Bare except swallows errors in {function_name}",
+    "description": "A bare exception handler at line {line} catches all exceptions, hiding bugs and making debugging harder.",
+    "future_scenario": "An unexpected runtime error may be silently suppressed, allowing the application to continue with incomplete or incorrect results.",
+    "impact": "Hidden failures, unreliable application behaviour, and difficult troubleshooting.",
+    "recommendation": "Catch specific exception types and log unexpected errors appropriately.",
+    "suggested_fix": {
+      "python": "# log the real error instead of swallowing it\nexcept Exception as error:\n    logger.exception(\"handled failure\", exc_info=error)",
+      "javascript": "// log the real error instead of swallowing it\ncatch (error) {{\n  logger.error(\"handled failure\", error);\n}}"
+    }
+  },
+  "unused_import": {
+    "title": "Unused import '{module}' in {file}",
+    "description": "The import '{module}' is never used and should be removed.",
+    "future_scenario": "Unnecessary dependencies may increase maintenance overhead and can create avoidable dependency-management problems.",
+    "impact": "Code clutter, reduced readability, and potentially unnecessary dependency overhead.",
+    "recommendation": "Remove unused imports and keep dependencies minimal.",
+    "suggested_fix": {
+      "python": "# {module} is never used — delete this import line\n# nothing else needs to change",
+      "javascript": "// {module} is never used — delete this import line\n// nothing else needs to change"
+    }
+  }
+}
